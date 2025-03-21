@@ -4,21 +4,22 @@ services:
       context: ./Frontend
       dockerfile: Dockerfile
     ports:
-      - "4000:4000"  # Frontend accessible on EC2 at port 4000
+      - "4000:4000"
     depends_on:
       - backend
     networks:
       - app-network
     environment:
-      - REACT_APP_WS_URL=ws://52.78.238.179:8080/telemetry  # Pass WebSocket URL to frontend
+      # Update to use service name instead of external IP
+      - REACT_APP_WS_URL=ws://frontend:4000/telemetry
 
   backend:
     build:
       context: ./Backend
       dockerfile: Dockerfile
     ports:
-      - "8080:8080"       # HTTP/WebSocket API
-      - "14555:14555/udp" # MAVLink UDP
+      - "8080:8080"
+      - "14555:14555/udp"
       - "14556:14556/udp"
       - "14557:14557/udp"
       - "14558:14558/udp"
