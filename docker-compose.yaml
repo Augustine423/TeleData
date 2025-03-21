@@ -1,17 +1,13 @@
+version: "3.8"
 services:
   frontend:
     build:
       context: ./Frontend
       dockerfile: Dockerfile
     ports:
-      - "4000:4000"
+      - "80:80" # Matches Nginx default
     depends_on:
       - backend
-    networks:
-      - app-network
-    environment:
-      # Update to use service name instead of external IP
-      - REACT_APP_WS_URL=ws://52.78.238.179:8080/telemetry
 
   backend:
     build:
@@ -19,14 +15,4 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8080:8080"
-      - "14555:14555/udp"
-      - "14556:14556/udp"
-      - "14557:14557/udp"
-      - "14558:14558/udp"
-      - "14559:14559/udp"
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+      - "14552-14559:14552-14559/udp"
