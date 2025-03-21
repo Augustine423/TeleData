@@ -11,7 +11,7 @@ services:
       - app-network
     environment:
       # Update to use service name instead of external IP
-      - REACT_APP_WS_URL=ws://frontend:4000/telemetry
+      - REACT_APP_WS_URL=ws://52.78.238.179:8080/telemetry
 
   backend:
     build:
