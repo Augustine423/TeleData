@@ -33,7 +33,6 @@ const RealTimeInfo = () => {
   useEffect(() => {
     const connectWebSocket = () => {
       console.log("Attempting WebSocket connection...");
-      // Use environment variable with fallback for flexibility
       const wsUrl = process.env.REACT_APP_WS_URL || "ws://52.78.238.179:8080/telemetry";
       ws.current = new WebSocket(wsUrl);
 
@@ -51,7 +50,6 @@ const RealTimeInfo = () => {
           if (data.drones && Array.isArray(data.drones)) {
             const updatedDrones = {};
             data.drones.forEach((drone) => {
-              // Ensure waypoints is an array, default to empty if missing
               drone.waypoints = Array.isArray(drone.waypoints) ? drone.waypoints : [];
               updatedDrones[drone.GCS_IP] = drone;
             });
@@ -228,10 +226,26 @@ const RealTimeInfo = () => {
               >
                 <Popup>
                   <div>
-                    <strong>Drone_ID</strong> {drone.systemid} <br />
-                    <strong>Altitude:</strong> {drone.alt} m <br />
-                    <strong>Speed:</strong> {drone.ground_speed} m/s <br />
-                    <strong>Battery:</strong> {drone.battery_voltage} V
+                    <strong>Drone ID:</strong> {drone.droneId || drone.system_id || "Unknown"} <br />
+                    <strong>GCS IP:</strong> {drone.GCS_IP || "N/A"} <br />
+                    <strong>Latitude:</strong> {drone.lat ? drone.lat.toFixed(5) : "N/A"} <br />
+                    <strong>Longitude:</strong> {drone.lon ? drone.lon.toFixed(5) : "N/A"} <br />
+                    <strong>Altitude:</strong> {drone.alt ? drone.alt.toFixed(1) : "N/A"} m <br />
+                    <strong>Airspeed:</strong> {drone.airspeed ? drone.airspeed.toFixed(2) : "N/A"} m/s <br />
+                    <strong>Ground Speed:</strong> {drone.ground_speed ? drone.ground_speed.toFixed(2) : "N/A"} m/s <br />
+                    <strong>Vertical Speed:</strong> {drone.vertical_speed ? drone.vertical_speed.toFixed(2) : "N/A"} m/s <br />
+                    <strong>Battery Voltage:</strong> {drone.battery_voltage ? drone.battery_voltage.toFixed(1) : "N/A"} V <br />
+                    <strong>Battery Current:</strong> {drone.battery_current ? drone.battery_current.toFixed(1) : "N/A"} A <br />
+                    <strong>Distance to Home:</strong> {drone.dist_to_home ? drone.dist_to_home.toFixed(0) : "N/A"} m <br />
+                    <strong>Distance Traveled:</strong> {drone.dist_traveled || "N/A"} m <br />
+                    <strong>Waypoint Distance:</strong> {drone.wp_dist || "N/A"} m <br />
+                    <strong>GPS HDOP:</strong> {drone.gps_hdop ? drone.gps_hdop.toFixed(2) : "N/A"} <br />
+                    <strong>Roll:</strong> {drone.roll || "N/A"}° <br />
+                    <strong>Pitch:</strong> {drone.pitch || "N/A"}° <br />
+                    <strong>Yaw:</strong> {drone.yaw || "N/A"}° <br />
+                    <strong>Wind Velocity:</strong> {drone.wind_vel ? drone.wind_vel.toFixed(2) : "N/A"} m/s <br />
+                    <strong>Time in Air:</strong> {drone.time_in_air || "N/A"} s <br />
+                    <strong>Timestamp:</strong> {drone.timestamp || "N/A"} <br />
                   </div>
                 </Popup>
               </Marker>
